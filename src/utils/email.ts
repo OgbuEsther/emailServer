@@ -12,16 +12,12 @@ const redirect = "https://developers.google.com/oauthplayground/";
 const OAuth = new google.auth.OAuth2(client_Id, client_Secret, redirect);
 OAuth.setCredentials({ refresh_token: refresh_Token }); 
 
-try {
-    OAuth.setCredentials({ refresh_token: refresh_Token }); 
-} catch (error) {
-   console.log(error) 
-}
 
 
 export const emailEnv = async (newUser: any) => {
   try {
     const access_token = await OAuth.getAccessToken();
+    OAuth.setCredentials({ access_token: refresh_Token }); 
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
