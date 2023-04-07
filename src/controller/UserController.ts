@@ -32,7 +32,7 @@ verified,} = req.body
 }
 
 //get all 
-export const getALlUsers = async(req:Request , res:Response)=>{
+export const getAllUsers = async(req:Request , res:Response)=>{
    try {
 
  
