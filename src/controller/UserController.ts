@@ -131,7 +131,7 @@ export const verifyUser = async (req: Request, res: Response) => {
 
         return res.status(201).json({
           message: "Account has been verified, you can now signin",
-        //   data: user,
+          //   data: user,
         });
       } else {
         return res.status(400).json({
@@ -143,11 +143,42 @@ export const verifyUser = async (req: Request, res: Response) => {
         message: "you didn't meet the set credentials",
       });
     }
- 
   } catch (error) {
     return res.status(404).json({
       message: "error",
       data: error,
     });
+  }
+};
+
+//reset password
+export const requestPassword = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    const user = await userModel.findOne({ email });
+    const token = crypto.randomBytes(32).toString("hex");
+    if ((user?.token === "" && user?.verified === true)) {
+      const userData = await userModel.findByIdAndUpdate(
+        user?._id,
+        { token: token },
+        { new: true }
+      );
+
+      return res.status(200).json({
+        message : "an email has been sent to you based on your request",
+        data : userData,
+        token : token,
+        user : user
+      })
+
+    }else{
+        return res.status(200).json({
+            message : "you didn't meet the set credentials"
+          })
+    }
+  } catch (error) {
+    return res.status(400).json({
+        message : "error"
+    })
   }
 };
