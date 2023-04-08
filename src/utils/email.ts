@@ -1,49 +1,104 @@
-import nodemailer from "nodemailer";
 import { google } from "googleapis";
+import nodemailer from "nodemailer";
 
-const client_Secret = "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";
+const GOOGLE_ID: string =
+  "377807975055-hrutiau3i0mclhou06ashkjj6tj732uj.apps.googleusercontent.com";
+const GOOGLE_SECRET: string = "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";
+const GOOGLE_REFRESHTOKEN: string =
+  "1//04Pj7KHmmi1RSCgYIARAAGAQSNwF-L9IrobRuEy9xi7c-sB4owrC7SLg1KwpCZMzvhEjsF38p4uzxgNSrml1EFxccG5tS7ksuUbE";
+const GOOGLE_REDIRECT: string =
+  "https://developers.google.com/oauthplayground/";
 
-const client_Id =
-  "738863812480-p619ajfm1v72rnr9698rth6spmns40pi.apps.googleusercontent.com";
-const refresh_Token =
-  "1//04jdr7MgZ2zTRCgYIARAAGAQSNwF-L9IrMHGrGZKvFfiAWDzuc9HWRs0GR9byxlNRM3xLHK8uSc69XMr48rrXCBVaJNx70SRvNww";
-const redirect = "https://developers.google.com/oauthplayground/";
+const oAuth = new google.auth.OAuth2(GOOGLE_ID, GOOGLE_SECRET, GOOGLE_REDIRECT);
 
-const OAuth = new google.auth.OAuth2(client_Id, client_Secret, redirect);
-OAuth.setCredentials({ refresh_token: refresh_Token }); 
-
-
-
-export const emailEnv = async (newUser: any) => {
+export const emailEnv = async (user: any) => {
   try {
-    const access_token = await OAuth.getAccessToken();
-    OAuth.setCredentials({ access_token: refresh_Token }); 
+    oAuth.setCredentials({ access_token: GOOGLE_REFRESHTOKEN });
+    const getToken: any = (await oAuth.getAccessToken()).token;
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
+
       auth: {
         type: "OAuth2",
         user: "techicon19@gmail.com",
-        
-        refreshToken: refresh_Token,
-        clientId: client_Id,
-        clientSecret: client_Secret,
-        accessToken: access_token.token || "",
+        clientId: GOOGLE_ID,
+        clientSecret: GOOGLE_SECRET,
+        refreshToken: GOOGLE_REFRESHTOKEN,
+        // accessToken: getToken,
+        // accessToken:
+        //   "",
+        accessToken: getToken.token || "",
+      },
+      
+    });
+
+    const mailerOption = {
+      from: "Easy Pay💰💸 <techicon19@gmail.com>",
+      to: user.email,
+      subject: "Account verification",
+      html: `<div>Welcome ${user.userName} 
+      <a href="http://localhost:3111/api/user/${user._id}/verified">verified</a>
+      <br/>
+      <br/>
+      ${user.OTP}
+        </div>`,
+    };
+
+    transporter
+      .sendMail(mailerOption)
+      .then(() => {
+        console.log("Email Send");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const resetPassword = async (user: any) => {
+  try {
+    oAuth.setCredentials({ access_token: GOOGLE_REFRESHTOKEN });
+    const getToken: any = (await oAuth.getAccessToken()).token;
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+
+      auth: {
+        type: "OAuth2",
+        user: "techicon19@gmail.com",
+        clientId: GOOGLE_ID,
+        clientSecret: GOOGLE_SECRET,
+        refreshToken: GOOGLE_REFRESHTOKEN,
+        // accessToken: getToken,
+        accessToken:
+          "ya29.a0Ael9sCOp1mUjffmmY5D70w-X3R2iCNqJNWkxudg3uYVTWpw4Ez2XpcPLUrdZhu3WSr7CnLHSiKzfQoU0WbnNjenICeyQKZCtJwhNDqUjy53Fowq6gbyB5vKhCRi8O3rf5uuAxeEzPuqEy4jVN2M74uTkHDgzwmQaCgYKAZQSARMSFQF4udJhxwbKl7hn-sLmpfCC5t9_rw0166",
       },
     });
 
-    const mailOptions = {
-      from: "Easy Pay ❤💵💳 <>",
-      //   to: "ogbuuzoma413@gmail.com",
-      to: newUser.email,
-      subject: "verify your account",
-      html: `<h2>view your login details below</h2>`,
+    const mailerOption = {
+      from: "Easy Pay💰💸 <techicon19@gmail.com>",
+      to: user.email,
+      subject: "Reset Password Request",
+      html: `<div>Welcome ${user.userName} 
+      <a href="http://localhost:3111/api/user/${user._id}/${user.token}/reset-password">verified</a>
+      <br/>
+      <br/>
+      ${user.OTP}
+        </div>`,
     };
-    transporter.sendMail(mailOptions).then((res)=>{
-console.log(`email sent`)
-    }).catch((err)=>{
-        console.log(`couldn't send mail ${err}`)
-    })
+
+    transporter
+      .sendMail(mailerOption)
+      .then(() => {
+        console.log("Email Send");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   } catch (error) {
-    return error;
+    console.log(error);
   }
 };

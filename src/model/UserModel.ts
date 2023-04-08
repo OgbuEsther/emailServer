@@ -5,6 +5,7 @@ name: string,
 email: string,
 password: string,
 token: string,
+OTP: string,
 verified: boolean
 
 }
@@ -26,6 +27,10 @@ const userSchema = new Schema ({
 
     },
     token: {
+        type: String,
+
+    },
+    OTP: {
         type: String,
 
     },
