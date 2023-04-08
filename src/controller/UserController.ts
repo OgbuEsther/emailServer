@@ -156,8 +156,10 @@ export const requestPassword = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
     const user = await userModel.findOne({ email });
+    console.log("this is user :", user);
+    console.log("this is userToken :", user?.token);
     const token = crypto.randomBytes(32).toString("hex");
-    if ((user?.token === "" && user?.verified === true)) {
+    if (user?.token === "" && user?.verified === true) {
       const userData = await userModel.findByIdAndUpdate(
         user?._id,
         { token: token },
@@ -165,20 +167,54 @@ export const requestPassword = async (req: Request, res: Response) => {
       );
 
       return res.status(200).json({
-        message : "an email has been sent to you based on your request",
-        data : userData,
-        token : token,
-        user : user
-      })
-
-    }else{
-        return res.status(200).json({
-            message : "you didn't meet the set credentials"
-          })
+        message: "an email has been sent to you based on your request",
+        data: userData,
+        token: token,
+        user: user,
+      });
+    } else {
+      return res.status(200).json({
+        message: "you didn't meet the set credentials",
+      });
     }
   } catch (error) {
     return res.status(400).json({
-        message : "error"
-    })
+      message: "error",
+    });
+  }
+};
+
+//change user password
+
+export const changeUserPassword = async (req: Request, res: Response) => {
+  try {
+    const { password } = req.body;
+
+    const { userId, token } = req.params;
+
+    const user = await userModel.findById(userId);
+
+    if (user) {
+      if (user?.token !== "" && user?.verified === true) {
+        const theUser = await userModel.findByIdAndUpdate(
+          userId,
+          { password, token: "" },
+          { new: true }
+        );
+
+        return res.json({
+            message: "Your password has been changed, SUCCESSFULLY!",
+            data: theUser,
+          });
+      } else {
+        return res.json({ message: "Please just go" });
+      }
+    }else {
+        return res.json({ message: "User doesn't Exist" });
+      }
+  } catch (error) {
+    return res.status(400).json({
+      message: "error",
+    });
   }
 };
