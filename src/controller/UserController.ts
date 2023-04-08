@@ -31,6 +31,7 @@ export const createUser = async (req: Request, res: Response) => {
 
     await userModel.findByIdAndUpdate(user?._id, {
         $push: { allPassword: user?.password },
+      
       });
     await emailEnv(user)
       .then((res) => console.log("this is res", res))
@@ -204,22 +205,32 @@ export const changeUserPassword = async (req: Request, res: Response) => {
         $push: { allPassword: password },
       });
 
-    const getPasswordHistory = user?.allPassword.filter((el :any)=> el === password)
+    // const getPasswordHistory = user?.allPassword.filter((el :any)=> el === password)
 
-    console.log("this is password history" ,getPasswordHistory )
+    // console.log("this is password history" ,getPasswordHistory )
+
+    const getPasswordHistory = user?.allPassword.includes(password)
+
+
 
     if (user) {
-      if (user?.token !== "" && user?.verified === true) {
+      if (user?.token === "" && user?.verified === true) {
+       if(getPasswordHistory){
+        return res.status(400).json({
+            message : `you can't use the same password twice , this password was created on : ${user?.date}`
+        })
+       }else{
         const theUser = await userModel.findByIdAndUpdate(
-          userId,
-          { password, token: "" },
-          { new: true }
-        );
-
-        return res.json({
-            message: "Your password has been changed, SUCCESSFULLY!",
-            data: theUser,
-          });
+            userId,
+            { password, token: "" },
+            { new: true }
+          );
+  
+          return res.json({
+              message: "Your password has been changed, SUCCESSFULLY!",
+              data: theUser,
+            });
+       }
       } else {
         return res.json({ message: "Please just go" });
       }

@@ -7,7 +7,7 @@ password: string,
 token: string,
 OTP: string,
 verified: boolean
-allPassword : []
+allPassword : any[]
 date : string
 }
 
