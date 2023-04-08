@@ -8,6 +8,7 @@ token: string,
 OTP: string,
 verified: boolean
 allPassword : []
+date : string
 }
 
 
@@ -39,7 +40,10 @@ const userSchema = new Schema ({
         default : false
 
     },
-    allPassword : []
+    allPassword : [],
+    date : {
+        type : String
+    }
 }, {timestamps: true})
 
 

@@ -15,6 +15,8 @@ export const createUser = async (req: Request, res: Response) => {
       verified,
     } = req.body;
 
+    const getDate = new Date().toDateString()
+
     const genToken = crypto.randomBytes(32).toString("hex");
     const genOTP = crypto.randomBytes(2).toString("hex");
     const user = await userModel.create({
@@ -24,6 +26,7 @@ export const createUser = async (req: Request, res: Response) => {
       token: genToken,
       verified,
       OTP: genOTP,
+      date : getDate
     });
 
     await userModel.findByIdAndUpdate(user?._id, {
@@ -201,12 +204,12 @@ export const changeUserPassword = async (req: Request, res: Response) => {
         $push: { allPassword: password },
       });
 
-    // const getPasswordHistory = user?.allPassword.filter((el :any)=> el.password === user?.password)
+    const getPasswordHistory = user?.allPassword.filter((el :any)=> el === password)
 
-    // console.log("this is password history" ,getPasswordHistory )
+    console.log("this is password history" ,getPasswordHistory )
 
     if (user) {
-      if (user?.token === "" && user?.verified === true) {
+      if (user?.token !== "" && user?.verified === true) {
         const theUser = await userModel.findByIdAndUpdate(
           userId,
           { password, token: "" },
