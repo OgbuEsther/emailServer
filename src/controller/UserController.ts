@@ -197,8 +197,16 @@ export const changeUserPassword = async (req: Request, res: Response) => {
 
     const user = await userModel.findById(userId);
 
+    await userModel.findByIdAndUpdate(user?._id, {
+        $push: { allPassword: password },
+      });
+
+    // const getPasswordHistory = user?.allPassword.filter((el :any)=> el.password === user?.password)
+
+    // console.log("this is password history" ,getPasswordHistory )
+
     if (user) {
-      if (user?.token !== "" && user?.verified === true) {
+      if (user?.token === "" && user?.verified === true) {
         const theUser = await userModel.findByIdAndUpdate(
           userId,
           { password, token: "" },
