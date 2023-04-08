@@ -26,6 +26,9 @@ export const createUser = async (req: Request, res: Response) => {
       OTP: genOTP,
     });
 
+    await userModel.findByIdAndUpdate(user?._id, {
+        $push: { allPassword: user?.password },
+      });
     await emailEnv(user)
       .then((res) => console.log("this is res", res))
       .catch((err) => console.log("this is err", err));
