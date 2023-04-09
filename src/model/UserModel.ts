@@ -1,4 +1,4 @@
-import { Document , Schema , model } from "mongoose"
+import mongoose, { Document , Schema , model } from "mongoose"
 
 interface iUser {
 name: string,
@@ -9,6 +9,7 @@ OTP: string,
 verified: boolean
 allPassword : any[]
 date : string
+newModel : {}[]
 }
 
 
@@ -43,7 +44,13 @@ const userSchema = new Schema ({
     allPassword : [],
     date : {
         type : String
-    }
+    },
+    newModel : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : "newModel"
+        }
+    ]
 }, {timestamps: true})
 
 

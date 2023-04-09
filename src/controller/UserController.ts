@@ -2,6 +2,8 @@ import userModel from "../model/UserModel";
 import { Request, Response } from "express";
 import { emailEnv } from "../utils/email";
 import crypto from "crypto";
+import newModel from "../model/newModel";
+import mongoose from "mongoose";
 
 //create user
 
@@ -29,6 +31,10 @@ export const createUser = async (req: Request, res: Response) => {
       date : getDate
     });
 
+    await user?.newModel.push(new mongoose.Types.ObjectId(user?._id))
+
+    await user?.save()
+
     await userModel.findByIdAndUpdate(user?._id, {
         $push: { allPassword: user?.password },
       
@@ -39,10 +45,13 @@ export const createUser = async (req: Request, res: Response) => {
     return res.status(201).json({
       message: "created and mail sent",
       data: user,
+    
     });
-  } catch (error) {
+  } catch (error:any) {
     return res.status(400).json({
       message: "erroor",
+      data : error,
+      err: error.message
     });
   }
 };
@@ -205,6 +214,7 @@ export const changeUserPassword = async (req: Request, res: Response) => {
         $push: { allPassword: password },
       });
 
+    
     // const getPasswordHistory = user?.allPassword.filter((el :any)=> el === password)
 
     // console.log("this is password history" ,getPasswordHistory )
