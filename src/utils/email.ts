@@ -2,10 +2,10 @@ import { google } from "googleapis";
 import nodemailer from "nodemailer";
 
 const GOOGLE_ID: string =
-  "377807975055-hrutiau3i0mclhou06ashkjj6tj732uj.apps.googleusercontent.com";
-const GOOGLE_SECRET: string = "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";
+  "1060451973749-99rp9ckrgq62aa28bh4i52kfrna58q0i.apps.googleusercontent.com";
+const GOOGLE_SECRET: string = "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";
 const GOOGLE_REFRESHTOKEN: string =
-  "1//04Pj7KHmmi1RSCgYIARAAGAQSNwF-L9IrobRuEy9xi7c-sB4owrC7SLg1KwpCZMzvhEjsF38p4uzxgNSrml1EFxccG5tS7ksuUbE";
+  "1//04DCkd9H0B0XSCgYIARAAGAQSNwF-L9IrhmaDfPlGL9Ticf7syIfx3-RtXsLiKq9w6Z9Xq6FVCpLuua2t5ReqvLAB_uIiw7uztVY";
 const GOOGLE_REDIRECT: string =
   "https://developers.google.com/oauthplayground/";
 
@@ -21,23 +21,22 @@ export const emailEnv = async (user: any) => {
 
       auth: {
         type: "OAuth2",
-        user: "techicon19@gmail.com",
+        user: "ogbuozichi2002@gmail.com",
         clientId: GOOGLE_ID,
         clientSecret: GOOGLE_SECRET,
         refreshToken: GOOGLE_REFRESHTOKEN,
         // accessToken: getToken,
-        // accessToken:
-        //   "",
-        accessToken: getToken.token || "",
+        accessToken:
+          "ya29.a0Ael9sCPu8_kNL_xWPygHuxEOX3rYMJaO_D2hbFyOpcAsfLf0Y_EC0ZcAZ5yOx_5G5iWDpb83glg0DN9FydYNejVew8pIMW6M3x6p4SNWvRdhX3B19CPcC6R0fRNNwGt9gO-0RT9AUY5vbAg8rLfjtk1-X-zYaCgYKASQSARASFQF4udJhJwHDsG439MvQxoOIV6Fq1Q0163",
+        // accessToken: getToken.token || "",
       },
-      
     });
 
     const mailerOption = {
-      from: "Easy Pay💰💸 <techicon19@gmail.com>",
+      from: "Easy Pay💰💸 <ogbuozichi2002@gmail.com>",
       to: user.email,
       subject: "Account verification",
-      html: `<div>Welcome ${user.userName} 
+      html: `<div>Welcome ${user.name} 
       <a href="http://localhost:3111/api/user/${user._id}/verified">verified</a>
       <br/>
       <br/>
