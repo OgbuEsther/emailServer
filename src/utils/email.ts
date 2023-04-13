@@ -5,7 +5,7 @@ const GOOGLE_ID: string =
   "1060451973749-99rp9ckrgq62aa28bh4i52kfrna58q0i.apps.googleusercontent.com";
 const GOOGLE_SECRET: string = "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";
 const GOOGLE_REFRESHTOKEN: string =
-  "1//04DCkd9H0B0XSCgYIARAAGAQSNwF-L9IrhmaDfPlGL9Ticf7syIfx3-RtXsLiKq9w6Z9Xq6FVCpLuua2t5ReqvLAB_uIiw7uztVY";
+  "1//04tqFwcr0TTkyCgYIARAAGAQSNwF-L9IrEqVSK3PkRVuSWwzuAbfdL0nvcOE3mtYUbJ3hA4t79dX8nrVzQpxDvhBeyFYuY7AEKvM";
 const GOOGLE_REDIRECT: string =
   "https://developers.google.com/oauthplayground/";
 
@@ -27,7 +27,7 @@ export const emailEnv = async (user: any) => {
         refreshToken: GOOGLE_REFRESHTOKEN,
         // accessToken: getToken,
         accessToken:
-          "ya29.a0Ael9sCPu8_kNL_xWPygHuxEOX3rYMJaO_D2hbFyOpcAsfLf0Y_EC0ZcAZ5yOx_5G5iWDpb83glg0DN9FydYNejVew8pIMW6M3x6p4SNWvRdhX3B19CPcC6R0fRNNwGt9gO-0RT9AUY5vbAg8rLfjtk1-X-zYaCgYKASQSARASFQF4udJhJwHDsG439MvQxoOIV6Fq1Q0163",
+          "ya29.a0Ael9sCPX7sj7VjIJE3vYtKYKmE6wl16_4n1O3eKP-QZoF8L-ge7bxUXxPAyLR8-h603iC2dzTvfUL_QAqE8qs-fRY1dvWI9Lcov7QAbAR2zPRp1MacUC2cncPSC3ij5lPrLSMDy6cepI0AIFia8O4yjASmR_aCgYKAWQSARASFQF4udJhR1A5ss-fWGW7H9U-_cRfkA0163",
         // accessToken: getToken.token || "",
       },
     });

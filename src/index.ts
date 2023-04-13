@@ -25,3 +25,11 @@ process.on("uncaughtException", (errorr: Error) => {
     console.log("shutting down server")
     process.exit(1)
 })
+process.on("unhandledRejection", (reason: Error) => {
+    console.log("shutting down server")
+    process.exit(1)
+
+    server.close(()=>{
+console.log(`error`)
+    })
+})
