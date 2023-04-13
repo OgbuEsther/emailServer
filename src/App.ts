@@ -8,7 +8,7 @@ import ejs from "ejs"
 export const mainApp = async (app: Application) => {
   app.set("view engine", "ejs");
   app.use(express.json());
-app.use(express.static(`${__dirname} public/css`))
+app.use(express.static(`${__dirname} "../public/css/Body.css`))
 app.use(express.static(`${__dirname} public/assets`))
   app.use(cors());
 
