@@ -11,13 +11,12 @@ allPassword : any[]
 RCNumber : string;
 staffID : string;
 date : string
-
 }
 
 
 interface User extends iUser , Document{}
 
-const userSchema = new Schema ({
+const companySchema = new Schema ({
     name: {
         type: String,
         
@@ -60,6 +59,6 @@ const userSchema = new Schema ({
 }, {timestamps: true})
 
 
-const userModel = model<User>("userColl" , userSchema)
+const companyModel = model<User>("userColl" , companySchema)
 
-export default userModel
+export default companyModel

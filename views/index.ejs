@@ -9,7 +9,12 @@
 
 </head>
 <body>
-    <div class="body" >Hello Esther</div>
+    <div class="body" >
+        <%=(data.name) %>
+        <%-include("Header") %>
+        <%-include("Body") %>
+        <%-include("Footer") %>
+    </div>
     <!-- <div ></div> -->
 </body>
 </html>

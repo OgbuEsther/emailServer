@@ -2,7 +2,7 @@ import userModel from "../model/UserModel";
 import { Request, Response } from "express";
 import { emailEnv } from "../utils/email";
 import crypto from "crypto";
-import newModel from "../model/newModel";
+
 import mongoose from "mongoose";
 
 //create user
@@ -31,7 +31,7 @@ export const createUser = async (req: Request, res: Response) => {
       date : getDate
     });
 
-    await user?.newModel.push(new mongoose.Types.ObjectId(user?._id))
+
 
     await user?.save()
 
