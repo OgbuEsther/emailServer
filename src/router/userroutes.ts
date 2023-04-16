@@ -1,9 +1,10 @@
 import {Router} from "express"
-import { changeUserPassword, createUser, requestPassword, verifyUser } from "../controller/UserController"
+import { changeUserPassword, createUser, getAllUsers, requestPassword, verifyUser } from "../controller/UserController"
 
 
 const user = Router()
 
+user.get("/users" ,getAllUsers)
 user.post("/create" , createUser)
 user.route("/:userId/verified").post(verifyUser);
 user.route("/reset-password").post(requestPassword);
