@@ -26,7 +26,7 @@ export const createUser = async (req: Request, res: Response) => {
       email,
       password,
       token: genToken,
-      verified,
+      verified:false,
       OTP: genOTP,
       date : getDate
     });
